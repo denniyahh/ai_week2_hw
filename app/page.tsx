@@ -29,7 +29,7 @@ export default function Chat() {
     genre: "",
     topics: "",
     tones: "",
-    // temperature: "",
+    temperature: "",
   });
 
   const handleChange = ({
@@ -126,6 +126,23 @@ export default function Chat() {
             </div>
           </div>
 
+          <div className="space-y-4 bg-opacity-25 bg-gray-700 rounded-lg p-4">
+            <h3 className="text-xl font-semibold">Temperature</h3>
+            <div className="flex flex-col items-center">
+              <input
+                type="range"
+                min="0"
+                max="2"
+                step="0.1"
+                defaultValue="1"
+                name="temperature"
+                onChange={handleChange}
+                className="w-full"
+              />
+              <span className="text-sm mt-2">{state.temperature}</span>
+            </div>
+          </div>
+
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
             disabled={isLoading || !state.genre || !state.topics || !state.tones}
@@ -133,6 +150,7 @@ export default function Chat() {
               append({
                 role: "user",
                 content: `Generate a ${state.genre} joke about ${state.topics} in a ${state.tones} tone`,
+                temperature: `${state.temperature}`,
               })
             }
           >
