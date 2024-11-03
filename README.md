@@ -1,1 +1,5 @@
-# ai_week2_hw
+# Group 3 AI JokeBox
+
+### Week 2 Homework Assignment
+
+## 
