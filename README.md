@@ -1,4 +1,8 @@
-# ai_week2_hw - Joke GPT
+# Group 3 AI JokeBox
 
+### Week 2 Homework Assignment
+
+## 
 ### Description
-In this version, the app allows users to request a random joke by clicking the button
+In this version, 
+

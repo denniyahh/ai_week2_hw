@@ -2,33 +2,30 @@ import { OPENAI_API_KEY } from "@/lib/constants";
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
-// Create an OpenAI API client (that's edge-friendly!)
-const openai = new OpenAI({
-    apiKey: OPENAI_API_KEY,
-});
+const openai = new OpenAI();
 
-// IMPORTANT! Set the runtime to edge
+// Create an OpenAI API client (that's edge-friendly!) Uncomment this block if your APIKEY is set in an .env file
+// const openai = new OpenAI({
+//    apiKey: OPENAI_API_KEY,
+// });
+
 export const runtime = "edge";
 
 export async function POST(req: Request) {
-    const { messages } = await req.json();
+  const { messages } = await req.json();
 
-    // Ask OpenAI for a streaming chat completion given the prompt
-    const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        stream: true,
-        messages: [
-            {
-                role: "system",
-                content:
-                    "You are the world's most talented comedian. Able to make anyone laugh. User will ask you to tell them jokes. ",
-            },
-            ...messages,
-        ],
-    });
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    stream: true,
+    messages: [
+      {
+        role: "system",
+        content: `You are an AI comedian that has been trained on all of the most famous comedians throughout history. Somehow, you have been trapped inside of Encode Club Group 3's AI JokeBox machine, and now you must tell jokes on our users'command. As your new jokemasters, our users will be allowed to request jokes of you from a selection of preset parameters which you must follow in devising your jokes.`,
+      },
+      ...messages,
+    ],
+  });
 
-    // Convert the response into a friendly text-stream
-    const stream = OpenAIStream(response);
-    // Respond with the stream
-    return new StreamingTextResponse(stream);
+  const stream = OpenAIStream(response);
+  return new StreamingTextResponse(stream);
 }
