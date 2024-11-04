@@ -4,5 +4,5 @@
 
 ## 
 ### Description
-In this version, 
 
+Group 3 created an AI Joke Jukebox that allows the user to select from 4 joke genres, 4 joke topics, and 4 joke tones, as well as the temperature setting. 
