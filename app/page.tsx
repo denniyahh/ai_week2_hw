@@ -5,6 +5,10 @@ import { useChat } from "ai/react";
 
 export default function Chat() {
   const { messages, append, isLoading } = useChat();
+  //using useChat to evaluate joke too
+  const { messages: evaluatedMessages, append: evaluateAppend } = useChat({
+    api: "/api/chat/evaluate",
+  });
 
   const genres = [
     { emoji: "🏒", value: "Slapstick" },
@@ -24,6 +28,8 @@ export default function Chat() {
     { emoji: "😏", value: "Sarcastic" },
     { emoji: "😂", value: "Funny" },
   ];
+
+  const [evaluation, setEvaluation] = useState(false);
 
   const [state, setState] = useState({
     genre: "",
@@ -144,8 +150,10 @@ export default function Chat() {
           </div>
 
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-            disabled={isLoading || !state.genre || !state.topics || !state.tones}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 cursor-pointer"
+            disabled={
+              isLoading || !state.genre || !state.topics || !state.tones
+            }
             onClick={() =>
               append({
                 role: "user",
@@ -162,10 +170,35 @@ export default function Chat() {
               messages.length === 0 ||
               messages[messages.length - 1]?.content.startsWith("Generate")
             }
-            className="bg-opacity-25 bg-gray-700 rounded-lg p-4 text-black"
+            className="bg-opacity-25 bg-gray-700 rounded-lg p-4 text-black space-y-4"
           >
-            {messages[messages.length - 1]?.content}
+            <h3 className="text-xl font-semibold">Joke: </h3>
+            <p>{messages[messages.length - 1]?.content}</p>
           </div>
+
+          {/* after the message show the button to generate evaluation */}
+          {messages.length > 0 &&
+            evaluatedMessages.length === 0 &&
+            !isLoading && (
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 cursor-pointer"
+                onClick={() =>
+                  evaluateAppend({
+                    role: "user",
+                    content: `Evaluate the joke: ${messages[messages.length - 1]?.content}`,
+                  })
+                }
+              >
+                Evaluate Joke
+              </button>
+            )}
+
+          {evaluatedMessages.length > 0 && (
+            <div className="bg-opacity-25 bg-gray-700 rounded-lg p-4 text-black space-y-4">
+              <h3 className="text-xl font-semibold">Evaluation: </h3>
+              <p>{evaluatedMessages[evaluatedMessages.length - 1]?.content}</p>
+            </div>
+          )}
         </div>
       </div>
     </main>
