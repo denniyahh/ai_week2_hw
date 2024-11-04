@@ -1,7 +1,13 @@
+import { OPENAI_API_KEY } from "@/lib/constants";
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
 const openai = new OpenAI();
+
+// Create an OpenAI API client (that's edge-friendly!) Uncomment this block if your APIKEY is set in an .env file
+// const openai = new OpenAI({
+//    apiKey: OPENAI_API_KEY,
+// });
 
 export const runtime = "edge";
 

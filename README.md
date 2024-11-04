@@ -3,3 +3,6 @@
 ### Week 2 Homework Assignment
 
 ## 
+### Description
+In this version, 
+
